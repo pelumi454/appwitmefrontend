@@ -15,13 +15,9 @@
 	box-shadow: none !important;
 }
 
-.loginButton{
-	border: none !important;
-	outline: none !important;
-	box-shadow: none !important;
+.loginButton {
+	color: #219700;
+	display: block;
+	text-decoration: none !important;
 	margin-right: 20px;
-}
-
-.loginButton:hover {
-	background-color: white;
 }
