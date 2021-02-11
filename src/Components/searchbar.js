@@ -12,12 +12,12 @@ import './searchbar.scss'
 
 
 
-function SearchBar( {setShow}) {
+function SearchBar( {setShow, show}) {
   return (
       
 
     <div className=" row searchBar">
-      <span className="leftSide"onClick={() => setShow(true)}  >
+      <span className="leftSide"onClick={() => setShow(!show)}  >
           <IoFilterSharp className="filterIcon"/>
         </span>
     

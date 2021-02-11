@@ -5,7 +5,7 @@ function Modal({show, closeModalHandler}) {
   return (
     <div className="modal-wrapper"
     style={{
-      transform: show? 'translateY(-5vh)': 'translateY(100vh)',
+      visibility: show? 'visible': 'hidden',
       opacity: show? '1': '0'
     }}
     >
