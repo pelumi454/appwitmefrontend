@@ -6,11 +6,17 @@ import * as businessActions from "../store/actions/businessRedux";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import NavBarStyle from "./NavBar.module.scss";
 import LogInForm from "../Components/LogInForm";
+import SignupForm from "../Components/SignupForm";
 
 const NavBar = (props) => {
 	const [showLogin, setShowLogin] = useState(false);
 	const handleLoginModal = () => {
 		setShowLogin(!showLogin);
+	};
+
+	const [showSignup, setShowSignup] = useState(false);
+	const handleSignupModal = () => {
+		setShowSignup(!showSignup);
 	};
 	return (
 		<>
@@ -57,13 +63,21 @@ const NavBar = (props) => {
 						>
 							Login
 						</Button>
-						<Button variant="primary" className={NavBarStyle.signupButton}>
+						<Button
+							variant="primary"
+							className={NavBarStyle.signupButton}
+							onClick={handleSignupModal}
+						>
 							Signup
 						</Button>
 					</Nav>
 				)}
 			</Navbar>
 			<LogInForm showLogin={showLogin} handleLoginModal={handleLoginModal} />
+			<SignupForm
+				showSignup={showSignup}
+				handleSignupModal={handleSignupModal}
+			/>
 		</>
 	);
 };
