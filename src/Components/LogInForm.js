@@ -1,88 +1,94 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { NavLink, Redirect } from "react-router-dom";
+import { Button, Modal } from "react-bootstrap";
 import * as actions from "../store/actions/auth";
-import Loading from "./Loading";
 
-class LogInForm extends Component {
-	constructor(props) {
-		super(props);
+const LogInForm = (props) => {
+	const [data, setData] = useState({
+		username: "",
+		password: "",
+	});
 
-		this.state = {
-			username: "",
-			password: "",
-		};
-	}
-
-	handleChange = (event) => {
-		this.setState({
-			[event.target.name]: event.target.value,
+	const handleChange = (e) => {
+		setData({
+			...data,
+			[e.target.name]: e.target.value,
 		});
 	};
 
-	handleFormSubmit = (event) => {
-		event.preventDefault();
-		const { username, password } = this.state;
-		this.props.onAuth(username, password);
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		props.onAuth(data.username, data.password);
+		props.handleLoginModal();
 	};
-	render() {
-		const { redirect, isLoading, loginError } = this.props;
-		return (
-			<>
-				{redirect === true && <Redirect to="/dashboard/" />}
-				{isLoading === true ? (
-					<Loading />
-				) : (
-					<form className="p-3" onSubmit={this.handleFormSubmit}>
-						<div className="form-group">
-							{loginError && (
-								<div className="text-center text-danger">
-									{loginError.name}: Incorrect username or password
-								</div>
-							)}
-							<label htmlFor="exampleInputEmail1">Username</label>
-							<input
-								type="text"
-								name="username"
-								value={this.state.username}
-								onChange={this.handleChange}
-								className="form-control form-control-sm"
-								id="exampleInputEmail1"
-							/>
+	return (
+		<Modal show={props.showLogin} onHide={props.handleLoginModal}>
+			<form onSubmit={handleSubmit}>
+				<Modal.Header closeButton>
+					<Modal.Title>Login</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-envelope"></i>
+							</span>
 						</div>
-						<div className="form-group">
-							<label htmlFor="exampleInputPassword1">Password</label>
-							<input
-								type="password"
-								name="password"
-								value={this.state.password}
-								onChange={this.handleChange}
-								className="form-control form-control-sm"
-								id="exampleInputPassword1"
-							/>
+						<input
+							type="text"
+							name="username"
+							className="form-control"
+							placeholder="username"
+							aria-label="username"
+							onChange={handleChange}
+							value={data.username}
+							aria-describedby="basic-addon1"
+						/>
+					</div>
+
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
 						</div>
-						<div className="form-group form-check form-control-sm">
-							<input
-								type="checkbox"
-								name="remember"
-								className="form-check-input"
-								id="exampleCheck1"
-							/>
-							<label className="form-check-label" htmlFor="exampleCheck1">
-								Remember me
-							</label>
-						</div>
-						<button type="submit" className="btn btn-dark">
-							Login
-						</button>{" "}
-						or
-						<NavLink to="/signup/"> Signup</NavLink>
-					</form>
-				)}
-			</>
-		);
-	}
-}
+
+						<input
+							type="password"
+							name="password"
+							className="form-control"
+							placeholder="Password"
+							aria-label="Password"
+							aria-describedby="basic-addon1"
+							onChange={handleChange}
+							value={data.password}
+						/>
+					</div>
+
+					{/* <p className="text-center" style={{ color: "black" }}>
+								Don't have an account?
+								<Signup
+									className="Login-signup"
+									style={{ backgroundColor: "transparent" }}
+									onClick={() => {
+										this.handleLoginModalShowHide();
+									}}
+								/>
+							</p> */}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						type="submit"
+						variant="success"
+						className="submitBtn btn-default col-12 text-center"
+					>
+						Submit
+					</Button>
+				</Modal.Footer>
+			</form>
+		</Modal>
+	);
+};
 
 const mapStateToProps = (state) => {
 	return {

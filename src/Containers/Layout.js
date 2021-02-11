@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import BusinessList from "../Components/BusinessList";
 import * as actions from "../store/actions/businessRedux";
@@ -6,8 +6,12 @@ import LayoutViewStyle from "./Layout.module.scss";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Loading from "../Components/Loading";
+import SearchBar from "../Components/searchbar";
+import Modal from "../Components/Modal";
 
 const Layout = (props) => {
+	const [show, setShow] = useState(false);
+	const closeModalHandler = () => setShow(false);
 	const { fetchbisinesses } = props;
 	const history = useHistory();
 	useEffect(() => {
@@ -25,13 +29,20 @@ const Layout = (props) => {
 				<div className={LayoutViewStyle.businesslist}>
 					<div className={LayoutViewStyle.searchandfilterbar}>
 						<div className={LayoutViewStyle.search}>
-							<input
+							{/* <input
 								type="text"
 								className={LayoutViewStyle.inputBox}
 								placeholder="Find business by name"
+							/> */}
+
+							<SearchBar
+								show={show}
+								setShow={setShow}
+								closeModalHandler={closeModalHandler}
 							/>
 						</div>
 					</div>
+
 					<div className={LayoutViewStyle.card}>
 						{isLoading ? (
 							<Loading />
@@ -55,6 +66,7 @@ const Layout = (props) => {
 							))
 						)}
 					</div>
+					<Modal show={show} closeModalHandler={closeModalHandler} />
 				</div>
 			</div>
 			<div
