@@ -1,73 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { NavLink, Redirect } from "react-router-dom";
+// import { NavLink, Redirect } from "react-router-dom";
 import * as actions from "../store/actions/auth";
-import Loading from "./Loading";
+// import Loading from "./Loading";
+import { Modal, Button } from "react-bootstrap";
 
 const SignupForm = (props) => {
+	const [data, setData] = useState({
+		username: "",
+		email: "",
+		password1: "",
+		password2: "",
+	});
+
+	const handleChange = (e) => {
+		setData({
+			...data,
+			[e.target.name]: e.target.value,
+		});
+	};
+
 	const handleFormSubmit = (event) => {
 		event.preventDefault();
-		const username = event.target.elements.username.value;
-		const email = event.target.elements.email.value;
-		const password1 = event.target.elements.password1.value;
-		const password2 = event.target.elements.password2.value;
-		props.onAuth(username, email, password1, password2);
+		// const username = event.target.elements.username.value;
+		// const email = event.target.elements.email.value;
+		// const password1 = event.target.elements.password1.value;
+		// const password2 = event.target.elements.password2.value;
+		props.onAuth(data.username, data.email, data.password1, data.password2);
 	};
-	const { redirect, isLoading, signupError } = props;
+	// const { redirect, isLoading, signupError } = props;
 	return (
-		<>
-			{redirect === true && <Redirect to="/email-sent" />}
-			{isLoading === true ? (
-				<Loading />
-			) : (
-				<form className="p-3" onSubmit={handleFormSubmit}>
-					{signupError && (
-						<div className="text-center text-danger">{signupError.message}</div>
-					)}
-					<div className="form-group">
-						<label htmlFor="InputEmail1">Username</label>
+		<Modal show={props.showSignup} onHide={props.handleSignupModal}>
+			<form onSubmit={handleFormSubmit}>
+				<Modal.Header closeButton>
+					<Modal.Title>Signup</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-user"></i>
+							</span>
+						</div>
 						<input
 							type="text"
 							name="username"
-							className="form-control form-control-sm"
-							id="Inputusername"
+							className="form-control"
+							placeholder="Username"
+							aria-label="username"
+							// aria-describedby="basic-addon1"
+							value={data.username}
+							onChange={handleChange}
 						/>
 					</div>
-					<div className="form-group">
-						<label htmlFor="InputEmail1">email</label>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-envelope"></i>
+							</span>
+						</div>
 						<input
 							type="email"
 							name="email"
-							className="form-control form-control-sm"
-							id="InputEmail1"
+							className="form-control"
+							placeholder="Email"
+							aria-label="Email"
+							aria-describedby="basic-addon1"
+							value={data.email}
+							onChange={handleChange}
 						/>
 					</div>
-					<div className="form-group">
-						<label htmlFor="InputPassword1">Password</label>
+
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
+						</div>
 						<input
 							type="password"
 							name="password1"
-							className="form-control form-control-sm"
-							id="InputPassword1"
+							className="form-control"
+							placeholder="Password"
+							aria-label="Password"
+							aria-describedby="basic-addon1"
+							value={data.password}
+							onChange={handleChange}
 						/>
 					</div>
-					<div className="form-group">
-						<label htmlFor="InputPassword2">Password</label>
+
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
+						</div>
+
 						<input
 							type="password"
 							name="password2"
-							className="form-control form-control-sm"
-							id="InputPassword2"
+							className="form-control"
+							placeholder="Password confirmation"
+							aria-label="Password confirmation"
+							aria-describedby="basic-addon1"
+							value={data.passwordConfirmation}
+							onChange={handleChange}
 						/>
 					</div>
-					<button type="submit" className="btn btn-dark">
-						Signup
-					</button>
-					or
-					<NavLink to="/login/"> Login</NavLink>
-				</form>
-			)}
-		</>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						type="submit"
+						variant="success"
+						className="submitBtn btn-default col-12"
+					>
+						Submit
+					</Button>
+				</Modal.Footer>
+			</form>
+		</Modal>
 	);
 };
 
