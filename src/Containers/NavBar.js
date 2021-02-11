@@ -1,55 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../store/actions/auth";
 import * as businessActions from "../store/actions/businessRedux";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import NavBarStyle from "./NavBar.module.scss";
+import LogInForm from "../Components/LogInForm";
 
 const NavBar = (props) => {
+	const [showLogin, setShowLogin] = useState(false);
+	const handleLoginModal = () => {
+		setShowLogin(!showLogin);
+	};
 	return (
-		<Navbar bg="light" variant="light" fixed="top" className={NavBarStyle.nav}>
-			<Navbar.Brand>
-				<NavLink to="/" onClick={props.fetchbisinesses}>
-					<img
-						src="https://find-blue-collar.s3.us-east-2.amazonaws.com/static/images/logo.png"
-						alt="AppWitMe"
-						width="30"
-						height="30"
-						className="d-inline-block align-top mr-2"
-					/>
-				</NavLink>
-				APPWITME
-			</Navbar.Brand>
-			{props.isAuthenticated ? (
-				<Nav className="ml-auto">
-					<NavLink to="/dashboard" className="nav-link">
-						<i className="fas fa-tachometer-alt text-white"></i> Dashboard
+		<>
+			<Navbar
+				bg="light"
+				variant="light"
+				fixed="top"
+				className={NavBarStyle.nav}
+			>
+				<Navbar.Brand>
+					<NavLink to="/" onClick={props.fetchbisinesses}>
+						<img
+							src="https://find-blue-collar.s3.us-east-2.amazonaws.com/static/images/logo.png"
+							alt="AppWitMe"
+							width="30"
+							height="30"
+							className="d-inline-block align-top mr-2"
+						/>
 					</NavLink>
-					<NavLink
-						to="/logout"
-						className="nav-link"
-						onClick={() => {
-							window.location.replace("/");
-							props.logout();
-						}}
-					>
-						<i className="fas fa-sign-out-alt"></i> Logout
-					</NavLink>
-				</Nav>
-			) : (
-				<Nav className="ml-auto">
-					<NavLink className={NavBarStyle.login} to="/login">
-						Login
-					</NavLink>
-					<NavLink className={NavBarStyle.signupLink} to="/signup">
-						<Button variant="primary" className={NavBarStyle.signupButton}>
-							<span className="text-white">Signup</span>
+					APPWITME
+				</Navbar.Brand>
+				{props.isAuthenticated ? (
+					<Nav className="ml-auto">
+						<NavLink to="/dashboard" className="nav-link">
+							<i className="fas fa-tachometer-alt text-white"></i> Dashboard
+						</NavLink>
+						<NavLink
+							to="/logout"
+							className="nav-link"
+							onClick={() => {
+								window.location.replace("/");
+								props.logout();
+							}}
+						>
+							<i className="fas fa-sign-out-alt"></i> Logout
+						</NavLink>
+					</Nav>
+				) : (
+					<Nav className="ml-auto">
+						<Button
+							variant="light"
+							className={NavBarStyle.loginButton}
+							onClick={handleLoginModal}
+						>
+							Login
 						</Button>
-					</NavLink>
-				</Nav>
-			)}
-		</Navbar>
+						<Button variant="primary" className={NavBarStyle.signupButton}>
+							Signup
+						</Button>
+					</Nav>
+				)}
+			</Navbar>
+			<LogInForm showLogin={showLogin} handleLoginModal={handleLoginModal} />
+		</>
 	);
 };
 

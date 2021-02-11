@@ -6,7 +6,7 @@ import NavBar from "./Containers/NavBar";
 import Layout from "./Containers/Layout";
 import * as actions from "./store/actions/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+import "./App.scss";
 
 class App extends Component {
 	componentDidMount() {
