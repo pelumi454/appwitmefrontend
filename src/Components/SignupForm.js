@@ -22,11 +22,8 @@ const SignupForm = (props) => {
 
 	const handleFormSubmit = (event) => {
 		event.preventDefault();
-		// const username = event.target.elements.username.value;
-		// const email = event.target.elements.email.value;
-		// const password1 = event.target.elements.password1.value;
-		// const password2 = event.target.elements.password2.value;
 		props.onAuth(data.username, data.email, data.password1, data.password2);
+		props.handleSignupModal();
 	};
 	// const { redirect, isLoading, signupError } = props;
 	return (
