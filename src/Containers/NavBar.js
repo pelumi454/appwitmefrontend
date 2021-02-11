@@ -3,7 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../store/actions/auth";
 import * as businessActions from "../store/actions/businessRedux";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav, Button} from "react-bootstrap";
 import NavBarStyle from "./NavBar.module.scss";
 import LogInForm from "../Components/LogInForm";
 import SignupForm from "../Components/SignupForm";

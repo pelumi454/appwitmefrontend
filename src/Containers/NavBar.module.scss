@@ -20,5 +20,11 @@
 	color: #219700;
 	display: block;
 	text-decoration: none !important;
-	margin-right: 20px;
+	outline: none im !important;
+}
+
+.login:hover {
+	display: block;
+	padding: 0.5rem 1rem;
+	text-decoration: none !important;
 }

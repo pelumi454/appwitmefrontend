@@ -1,4 +1,39 @@
 .button{
+<<<<<<< HEAD
+  color:#219601;
+  background-color: #fff;
+  border-radius: none;
+  border-color: #fff;
+  margin-right: 30px;
+
+  .button:hover{
+    background-color: white;
+  }
+
+}
+
+.img{
+ margin-left: 180px;
+ height: 60px;
+ width: 80px;
+
+}
+.text{
+  margin-left: 190px;
+  font-size: 18px;
+  font-weight: bold;
+}
+.submitBtn{
+  width:25rem;
+  
+  border-radius: 24px;
+}
+
+.Login-signup{
+  background-color: transparent !important;
+}
+
+=======
     color:#219601;
     background-color: #fff;
     border-radius: none;
@@ -31,3 +66,4 @@
   .Login-signup{
     background-color: transparent !important;
   }
+>>>>>>> 60c958b02e76dda4be7b78c1279bc27f41f52a8a
