@@ -1,98 +1,71 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Modal } from "react-bootstrap";
-import "./login.styles.scss";
 import * as actions from "../store/actions/auth";
-// import Signup from "../Components/signup";
-// import { NavLink, Redirect } from"react-router-dom";
-//import Loading from "./Loading";
 
-class LogInForm extends Component {
-	state = {
-		showHide: false,
-		email: "",
+const LogInForm = (props) => {
+	const [data, setData] = useState({
+		username: "",
 		password: "",
-	};
+	});
 
-	emailHandler = (event) => {
-		this.setState({
-			email: event.target.value,
+	const handleChange = (e) => {
+		setData({
+			...data,
+			[e.target.name]: e.target.value,
 		});
 	};
 
-	passwordHandler = (event) => {
-		this.setState({
-			password: event.target.value,
-		});
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		props.onAuth(data.username, data.password);
+		props.handleLoginModal();
 	};
+	return (
+		<Modal show={props.showLogin} onHide={props.handleLoginModal}>
+			<form onSubmit={handleSubmit}>
+				<Modal.Header closeButton>
+					<Modal.Title>Login</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-envelope"></i>
+							</span>
+						</div>
+						<input
+							type="text"
+							name="username"
+							className="form-control"
+							placeholder="username"
+							aria-label="username"
+							onChange={handleChange}
+							value={data.username}
+							aria-describedby="basic-addon1"
+						/>
+					</div>
 
-	handleLoginModalShowHide() {
-		this.setState({ showHide: !this.state.showHide });
-	}
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
+						</div>
 
-	render() {
-		return (
-			<div className="login">
-				<Button
-					variant="Light"
-					className="button"
-					onClick={() => this.handleLoginModalShowHide()}
-				>
-					Login
-				</Button>
+						<input
+							type="password"
+							name="password"
+							className="form-control"
+							placeholder="Password"
+							aria-label="Password"
+							aria-describedby="basic-addon1"
+							onChange={handleChange}
+							value={data.password}
+						/>
+					</div>
 
-				<Modal show={this.state.showHide}>
-					<Modal.Header
-						closeButton
-						onClick={() => this.handleLoginModalShowHide()}
-					>
-						<Modal.Title>
-							{" "}
-						
-							<br />
-							<span className="text mb-5">Appwitme</span>
-						</Modal.Title>
-					</Modal.Header>
-
-					<Modal.Body className="body">
-						<p className="text-center">Login to your account to continue</p>
-						<form>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">
-										<i class="fa fa-envelope"></i>
-									</span>
-								</div>
-								<input
-									type="text"
-									class="form-control"
-									placeholder="Email"
-									aria-label="Email"
-									onChange={this.emailHandler}
-									value={this.state.email}
-									aria-describedby="basic-addon1"
-								/>
-							</div>
-
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">
-										<i class="fa fa-lock"></i>
-									</span>
-								</div>
-
-								<input
-									type="password"
-									class="form-control"
-									placeholder="Password"
-									aria-label="Password"
-									aria-describedby="basic-addon1"
-									onChange={this.passwordHandler}
-									value={this.state.password}
-								/>
-							</div>
-
-							{/* <p className="text-center" style={{ color: "black" }}>
+					{/* <p className="text-center" style={{ color: "black" }}>
 								Don't have an account?
 								<Signup
 									className="Login-signup"
@@ -102,27 +75,20 @@ class LogInForm extends Component {
 									}}
 								/>
 							</p> */}
-						</form>
-					</Modal.Body>
-
-					<Modal.Footer>
-						<div className="col-12 text-center">
-							<Button
-								variant="success"
-								className="submitBtn btn-default"
-								onClick={
-									(() => this.handleLoginModalShowHide(), this.state.showHide)
-								}
-							>
-								Submit
-							</Button>
-						</div>
-					</Modal.Footer>
-				</Modal>
-			</div>
-		);
-	}
-}
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						type="submit"
+						variant="success"
+						className="submitBtn btn-default col-12 text-center"
+					>
+						Submit
+					</Button>
+				</Modal.Footer>
+			</form>
+		</Modal>
+	);
+};
 
 const mapStateToProps = (state) => {
 	return {

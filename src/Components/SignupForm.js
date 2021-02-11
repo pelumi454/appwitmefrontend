@@ -1,143 +1,126 @@
-import React, {Component} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Button, Modal } from "react-bootstrap";
-//import { NavLink, Redirect } from "react-router-dom";
-import "./signup.styles.scss";
+// import { NavLink, Redirect } from "react-router-dom";
 import * as actions from "../store/actions/auth";
-//import Loading from "./Loading";
+// import Loading from "./Loading";
+import { Modal, Button } from "react-bootstrap";
 
-class SignupForm extends Component {
-	constructor() {
-		super();
-		this.state = {
-			showHide: false,
-			email: "",
-			password: "",
-			passwordConfirmation: "",
-		};
-	}
+const SignupForm = (props) => {
+	const [data, setData] = useState({
+		username: "",
+		email: "",
+		password1: "",
+		password2: "",
+	});
 
-	emailHandler = (event) => {
-		this.setState({
-			email: event.target.value,
+	const handleChange = (e) => {
+		setData({
+			...data,
+			[e.target.name]: e.target.value,
 		});
 	};
 
-	passwordHandler = (event) => {
-		this.setState({
-			password: event.target.value,
-		});
+	const handleFormSubmit = (event) => {
+		event.preventDefault();
+		// const username = event.target.elements.username.value;
+		// const email = event.target.elements.email.value;
+		// const password1 = event.target.elements.password1.value;
+		// const password2 = event.target.elements.password2.value;
+		props.onAuth(data.username, data.email, data.password1, data.password2);
 	};
-
-	passwordConfirmationHandler = (event) => {
-		this.setState({
-			passwordConfirmation: event.target.value,
-		});
-	};
-
-	handleSignupModalShowHide() {
-		this.setState({ showHide: !this.state.showHide });
-	}
-
-	render() {
-		return (
-			<div>
-				<Button
-					variant="success"
-					className="signupBtn"
-					onClick={() => this.handleSignupModalShowHide()}
-				>
-					Signup
-				</Button>
-
-				<Modal show={this.state.showHide}>
-					<Modal.Header
-						closeButton
-						onClick={() => this.handleSignupModalShowHide()}
-					>
-						<Modal.Title>
-							{" "}
-							
-							<br />
-							<span className="text">Appwitme</span>
-						</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<p className="text-center">
-							Please create an account by filling the details below
-						</p>
-						<form>
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">
-										<i class="fa fa-envelope"></i>
-									</span>
-								</div>
-								<input
-									type="text"
-									class="form-control"
-									placeholder="Email"
-									aria-label="Email"
-									aria-describedby="basic-addon1"
-									value={this.state.email}
-									onChange={this.emailHandler}
-								/>
-							</div>
-
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">
-										<i class="fa fa-lock"></i>
-									</span>
-								</div>
-								<input
-									type="password"
-									class="form-control"
-									placeholder="Password"
-									aria-label="Password"
-									aria-describedby="basic-addon1"
-									value={this.state.password}
-									onChange={this.passwordHandler}
-								/>
-							</div>
-
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">
-										<i class="fa fa-lock"></i>
-									</span>
-								</div>
-
-								<input
-									type="text"
-									class="form-control"
-									placeholder="Password confirmation"
-									aria-label="Password confirmation"
-									aria-describedby="basic-addon1"
-									value={this.state.passwordConfirmation}
-									onChange={this.passwordConfirmationHandler}
-								/>
-							</div>
-						</form>
-					</Modal.Body>
-					<Modal.Footer>
-						<div className="col-12 text-center">
-							{/* <p>Already have an account?</p> */}
-							{/* <Login onClick={this.handleSignupModalShowHide()} /> */}
-							<Button
-								variant="success"
-								className="submitBtn btn-default"
-								// onClick={() => this.handleSignupModalShowHide()}
-							>
-								Submit
-							</Button>
+	// const { redirect, isLoading, signupError } = props;
+	return (
+		<Modal show={props.showSignup} onHide={props.handleSignupModal}>
+			<form onSubmit={handleFormSubmit}>
+				<Modal.Header closeButton>
+					<Modal.Title>Signup</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-user"></i>
+							</span>
 						</div>
-					</Modal.Footer>
-				</Modal>
-			</div>
-		);
-	}
-}
+						<input
+							type="text"
+							name="username"
+							className="form-control"
+							placeholder="Username"
+							aria-label="username"
+							// aria-describedby="basic-addon1"
+							value={data.username}
+							onChange={handleChange}
+						/>
+					</div>
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-envelope"></i>
+							</span>
+						</div>
+						<input
+							type="email"
+							name="email"
+							className="form-control"
+							placeholder="Email"
+							aria-label="Email"
+							aria-describedby="basic-addon1"
+							value={data.email}
+							onChange={handleChange}
+						/>
+					</div>
+
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
+						</div>
+						<input
+							type="password"
+							name="password1"
+							className="form-control"
+							placeholder="Password"
+							aria-label="Password"
+							aria-describedby="basic-addon1"
+							value={data.password}
+							onChange={handleChange}
+						/>
+					</div>
+
+					<div className="input-group mb-3">
+						<div className="input-group-prepend">
+							<span className="input-group-text" id="inputGroup-sizing-sm">
+								<i className="fa fa-lock"></i>
+							</span>
+						</div>
+
+						<input
+							type="password"
+							name="password2"
+							className="form-control"
+							placeholder="Password confirmation"
+							aria-label="Password confirmation"
+							aria-describedby="basic-addon1"
+							value={data.passwordConfirmation}
+							onChange={handleChange}
+						/>
+					</div>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						type="submit"
+						variant="success"
+						className="submitBtn btn-default col-12"
+					>
+						Submit
+					</Button>
+				</Modal.Footer>
+			</form>
+		</Modal>
+	);
+};
 
 const mapStateToProps = (state) => {
 	return {

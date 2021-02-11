@@ -2,8 +2,8 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import BusinessDetailView from "./Containers/BusinessDetailView";
 import NotFound from "./Components/NotFound";
-import LogInForm from "./Components/LogInForm";
-import SignupForm from "./Components/SignupForm";
+// import LogInForm from "./Components/LogInForm";
+// import SignupForm from "./Components/SignupForm";
 import EmailSent from "./Components/EmailSent";
 import DashBoard from "./Components/DashBoard";
 import BusinessForm from "./Components/BusinessForm";
@@ -17,8 +17,8 @@ const BaseRouter = () => (
 		<Switch>
 			<Route exact path="/" component={HomeView} />
 			<Route path="/logout" component={LogOut} />
-			<Route path="/login/" component={LogInForm} />
-			<Route path="/signup/" component={SignupForm} />
+			{/* <Route path="/login/" component={LogInForm} />
+			<Route path="/signup/" component={SignupForm} /> */}
 			<Route path="/email-sent/" component={EmailSent} />
 			<Route path="/dashboard/" component={DashBoard} />
 			<Route path="/business-form/" component={BusinessForm} />
