@@ -6,7 +6,7 @@ function Modal({show, closeModalHandler}) {
     <div className="modal-wrapper"
     style={{
       transform: show? 'translateY(-5vh)': 'translateY(100vh)',
-      opacity: show? '1': '1'
+      opacity: show? '1': '0'
     }}
     >
       <div className="modal-header row"> 
